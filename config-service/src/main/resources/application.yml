@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: config-service
+  cloud:
+    discovery:
+      enabled: true
+    config:
+      server:
+        git:
+          uri: ${CONFIG_URL:file:///C:/Users/Dell/Desktop/projects/order_management/config-repo}
+          default-label: master
+eureka:
+  instance:
+    prefer-ip-address: true
+    client:
+      serviceUrl:
+        defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+server:
+  port: 8888
+
+
