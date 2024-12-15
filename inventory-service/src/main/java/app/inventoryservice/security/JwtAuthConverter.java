@@ -30,7 +30,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         return new JwtAuthenticationToken(jwt, authorities,jwt.getClaim("preferred_username"));
     }
     private Collection<GrantedAuthority> extractResourceRoles(Jwt jwt) {
-        System.out.println("extracting roles ...");
+        System.out.println("extracting roles here ...");
         Map<String , Object> realmAccess;
         Collection<String> roles;
         if(jwt.getClaim("realm_access")==null) return Set.of();

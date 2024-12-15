@@ -1,0 +1,20 @@
+spring:
+  # spring cloud configuration
+  cloud:
+    # config server
+    config:
+      enabled: true
+    # discovery client
+    discovery:
+      enabled: true
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${DISCOVERY_SERVICE_URL:http://localhost:8761/eureka}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,refresh,info

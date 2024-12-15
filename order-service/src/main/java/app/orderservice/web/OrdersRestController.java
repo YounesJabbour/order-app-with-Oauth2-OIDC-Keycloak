@@ -4,8 +4,8 @@ import app.orderservice.client.InventoryRestClient;
 import app.orderservice.entity.Order;
 import app.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,27 +23,26 @@ public class OrdersRestController {
 
     @GetMapping("/orders")
     @PreAuthorize("hasAuthority('USER')")
-    public List<Order> findAllOrders(){
+    public ResponseEntity<List<Order>> findAllOrders(){
         List<Order> allOrders = orderRepository.findAll();
         allOrders.forEach(o->{
             o.getProductItems().forEach(pi->{
                 pi.setProduct(inventoryRestClient.findProductById(pi.getProductId()));
             });
         });
-        return allOrders;
+        return ResponseEntity.ok(allOrders);
     }
     @GetMapping("/orders/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Order findOrderById(@PathVariable String id){
-        Order order = orderRepository.findById(id).get();
+    public ResponseEntity<Order> findOrderById(@PathVariable String id){
+
+        Order order =  orderRepository.findById(id).isPresent() ? orderRepository.findById(id).get() : null;
+        if(order == null){
+            return null;
+        }
         order.getProductItems().forEach(pi->{
             pi.setProduct(inventoryRestClient.findProductById(pi.getProductId()));
         });
-        return order;
-    }
-
-    @GetMapping("/auth")
-    public Authentication auth(Authentication authentication){
-        return authentication;
+        return ResponseEntity.ok(order);
     }
 }

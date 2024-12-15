@@ -3,16 +3,7 @@ server:
 spring:
   application:
     name: order-service
-  cloud:
-    discovery:
-      enabled: true
-    config:
-        enabled: false
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:mem:order-db
+# security configuration
   security:
     oauth2:
       resourceserver:
@@ -21,8 +12,3 @@ spring:
           issuer-uri: http://localhost:8080/realms/glsid-realm
   config:
     import: optional:configserver:http://localhost:8888
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/

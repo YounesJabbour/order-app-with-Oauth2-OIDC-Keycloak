@@ -1,0 +1,6 @@
+# database
+  datasource:
+    url: jdbc:h2:mem:order-db
+  h2:
+    console:
+      enabled: true
